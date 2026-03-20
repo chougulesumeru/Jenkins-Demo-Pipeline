@@ -59,5 +59,33 @@ pipeline {
                 }
             }
         }
+
+        stage('7. terraform build'){
+            steps{
+                withCredentials()
+                {   
+                    dir('terraform')
+                    {
+                    sh 'terraform init'
+                    sh 'terraform validate'
+                    sh 'terraform plan'
+                    sh 'terraform plan'
+                    }
+                }
+            }
+        }
+
+    }
+
+    post {
+        alwayss {
+            echo "pipeline execution completed"
+        }
+        success {
+            echo "Deployment successful"
+        }
+        failure {
+            echo "pipeline failed- check logs"
+        }
     }
 }
